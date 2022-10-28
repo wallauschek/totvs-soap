@@ -1,0 +1,35 @@
+POST http://localhost:3000/totvs/soap/dataServer/financeiro/finLanDataBR
+Content-Type: application/json
+
+ {
+  "codColigada": 1,
+  "idLan": -1,
+  "NFOUDUP": 0,
+  "classificacao": 0,
+  "pagRec": 1,
+  "statusLan": 0,
+  "codAplicacao": "F",
+  "historico": "teste - teste",
+  "dataCriacao": "2022-10-27T00:00:00",
+  "dataVencimento": "2022-10-28T00:00:00",
+  "dataEmissao": "2022-10-27T00:00:00",
+  "valorOriginal": 450,
+  "codColCFO": 0,
+  "codCFO": "00015353",
+  "codColCxa": 1,
+  "codTDO": 130,
+  "codFilial": 1,
+  "serieDocumento": "@@@",
+  "codTb2Flx": "0017",
+  "codTb3Flx": "02.001.235",
+  "codCusto": "1.04.002.015",
+  "tipoContabilLan": 2,
+  "baixaAutorizada": 1,
+  "aplicFormula": "F",
+  "formulaJuros": "JLAR11",
+  "formulaMulta": "JLAR10",
+  "formulaValorOp1": "HSM.203",
+  "preencherRatCCusto": true,
+  "preencherRatDepto": true,
+  "codColConvenio": 1
+}
