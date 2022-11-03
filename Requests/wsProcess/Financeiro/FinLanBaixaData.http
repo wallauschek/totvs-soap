@@ -1,0 +1,8 @@
+POST http://localhost:3000/totvs/soap/financeiro/wsProcess/baixaSimples
+Content-Type: application/json
+
+ {
+  "codColigada": 1,
+  "idLan": 676257,
+  "valor": 450.00
+}

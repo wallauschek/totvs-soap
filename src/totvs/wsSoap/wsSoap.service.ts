@@ -2,13 +2,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Client } from 'nestjs-soap';
 import { XMLParser } from 'fast-xml-parser';
 
-import { wsSoapDTO, wsDataServerDTO } from './dto/wsSoap.dto';
+import { wsSoapDTO, wsDataServerDTO, wsProcessDTO } from './dto/wsSoap.dto';
 
 @Injectable()
 export class WsSoapService {
   constructor(
     @Inject('wsSoapSQL') private readonly mySoapClient: Client,
     @Inject('wsDataServer') private readonly mySoapDataServerClient: Client,
+    @Inject('wsProcess') private readonly mySoapProcessClient: Client,
   ) {}
 
   executaSql({ codcoligada, consulta, parametros }: wsSoapDTO) {
@@ -68,6 +69,7 @@ export class WsSoapService {
       });
     return dataserver;
   }
+
   async executaSaveRecordDataServer({
     DataServerName,
     XML,
@@ -92,5 +94,29 @@ export class WsSoapService {
         return error;
       });
     return dataserver;
+  }
+
+  async executaExecuteWithXmlParamsProcess({
+    ProcessServerName,
+    strXmlParams,
+  }: wsProcessDTO) {
+    const args = {
+      ProcessServerName: ProcessServerName,
+      Usuario: process.env.SOAP_USER,
+      Senha: process.env.SOAP_PASSWORD,
+      strXmlParams: strXmlParams?.toString().replace(/(\r\n|\n|\r)/gm, ''),
+    };
+
+    const dataProcess = await this.mySoapProcessClient
+      .ExecuteWithXmlParamsAuthAsync(args)
+      .then((result: any) => {
+        console.log(result);
+        return result[0].ExecuteWithXmlParamsAuthResult;
+      })
+      .catch((error: any) => {
+        console.log(error);
+        return error;
+      });
+    return dataProcess;
   }
 }

@@ -11,10 +11,24 @@ import { WsSoapService } from './wsSoap.service';
     SoapModule.register({
       clientName: 'wsSoapSQL',
       uri: `${process.env.SOAP_URL}/wsConsultaSQL.asmx?wsdl`,
+      auth: {
+        type: 'basic',
+        username: process.env.SOAP_USER as string,
+        password: process.env.SOAP_PASSWORD as string,
+      },
     }),
     SoapModule.register({
       clientName: 'wsDataServer',
       uri: `${process.env.SOAP_URL}/wsDataServer.asmx?wsdl`,
+      auth: {
+        type: 'basic',
+        username: process.env.SOAP_USER as string,
+        password: process.env.SOAP_PASSWORD as string,
+      },
+    }),
+    SoapModule.register({
+      clientName: 'wsProcess',
+      uri: `${process.env.SOAP_URL}/wsProcess.asmx?wsdl`,
       auth: {
         type: 'basic',
         username: process.env.SOAP_USER as string,

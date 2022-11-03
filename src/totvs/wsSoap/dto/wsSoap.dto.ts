@@ -9,3 +9,8 @@ export interface wsDataServerDTO {
   XML?: string;
   Contexto: string;
 }
+
+export interface wsProcessDTO {
+  ProcessServerName: string;
+  strXmlParams: string;
+}

@@ -30,3 +30,9 @@ export class CreateFinLanDataBRDto {
   preencherRatDepto: boolean;
   codColConvenio: number;
 }
+
+export class CreateBaixaSimplesDataDto {
+  codColigada: number;
+  idLan: number;
+  valor: number;
+}

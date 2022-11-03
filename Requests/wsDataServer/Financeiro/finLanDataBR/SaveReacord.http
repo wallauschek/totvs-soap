@@ -1,4 +1,4 @@
-POST http://localhost:3000/totvs/soap/dataServer/financeiro/finLanDataBR
+POST http://localhost:3000/totvs/soap/financeiro/dataServer/finLanDataBR
 Content-Type: application/json
 
  {

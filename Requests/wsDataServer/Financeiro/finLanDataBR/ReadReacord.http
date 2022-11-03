@@ -1,2 +1,2 @@
-GET http://localhost:3000/totvs/soap/dataServer/financeiro/finLanDataBR/1/676263
+GET http://localhost:3000/totvs/soap/financeiro/dataServer/finLanDataBR/1/676263
 Content-Type: application/json

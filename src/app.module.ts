@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { FinanceiroModule } from './totvs/financeiro/financeiro.module';
 import { WsSoapModule } from './totvs/wsSoap/wsSoap.module';
 
 @Module({
-  imports: [
-    //importar o modulo wsSoap
-    WsSoapModule,
-  ],
+  imports: [WsSoapModule, FinanceiroModule],
   controllers: [AppController],
   providers: [AppService],
 })

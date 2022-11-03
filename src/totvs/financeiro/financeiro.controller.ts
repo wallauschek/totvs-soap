@@ -1,21 +1,33 @@
 import { Controller, Post, Body, Param, Get } from '@nestjs/common';
 import { FinanceiroService } from './financeiro.service';
-import { CreateFinLanDataBRDto } from './dto/create-financeiro.dto';
+import {
+  CreateBaixaSimplesDataDto,
+  CreateFinLanDataBRDto,
+} from './dto/create-financeiro.dto';
 
-@Controller('totvs/soap/dataServer/financeiro')
+@Controller('totvs/soap/financeiro')
 export class FinanceiroController {
   constructor(private readonly financeiroService: FinanceiroService) {}
 
-  @Post('finLanDataBR')
-  create(@Body() createFinLanData: CreateFinLanDataBRDto) {
-    return this.financeiroService.create(createFinLanData);
+  @Post('dataServer/finLanDataBR')
+  createFinLanDataBR(@Body() createFinLanData: CreateFinLanDataBRDto) {
+    return this.financeiroService.createFinLanDataBR(createFinLanData);
   }
 
-  @Get('finLanDataBR/:coligada/:idLancamento')
-  findOne(
+  @Get('dataServer/finLanDataBR/:coligada/:idLancamento')
+  findOneFinLanDataBR(
     @Param('coligada') coligada: number,
     @Param('idLancamento') idLancamento: number,
   ) {
-    return this.financeiroService.findOne(+coligada, +idLancamento);
+    return this.financeiroService.findOneFinLanDataBR(+coligada, +idLancamento);
+  }
+
+  @Post('wsProcess/baixaSimples')
+  createBaixaSimples(
+    @Body() createBaixaSimplesData: CreateBaixaSimplesDataDto,
+  ) {
+    return this.financeiroService.baixaSimplesLancamento(
+      createBaixaSimplesData,
+    );
   }
 }
