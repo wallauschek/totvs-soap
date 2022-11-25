@@ -1,0 +1,24 @@
+POST http://localhost:3001/totvs/alunos/gerarLancamentosAgrupaBoletoAluno
+Content-Type: application/json
+
+ {
+    "codUsuario": "pedro",
+    "codColigada": 1,
+    "codFilial": 1,
+    "codTipoCurso": 1,
+    "ra": "2022100252",
+    "DataVencimentoInicial": "2023-03-01T00:00:00",
+    "DataVencimentoFinal": "2023-03-01T00:00:00",
+    "listaIdHabilitacaoFilial": [
+      1475
+    ],
+    "listaIdPeriodosLetivos": [
+      62
+    ],
+    "listaCodPlanosPagamento": [
+      "1.M12.204"
+    ],
+    "listaCodServicos": [
+      202, 279
+    ]
+}

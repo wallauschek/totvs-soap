@@ -36,3 +36,17 @@ export class CreateBaixaSimplesDataDto {
   idLan: number;
   valor: number;
 }
+
+export class GerarBoletoAgrupadoDto {
+  codUsuario: string;
+  codColigada: number;
+  codFilial: number;
+  codTipoCurso: number;
+  ra: string;
+  DataVencimentoInicial: Date;
+  DataVencimentoFinal: Date;
+  listaIdHabilitacaoFilial: number[];
+  listaIdPeriodosLetivos: number[];
+  listaCodPlanosPagamento: string[];
+  listaCodServicos: number[];
+}

@@ -110,7 +110,7 @@ export class WsSoapService {
     const dataProcess = await this.mySoapProcessClient
       .ExecuteWithXmlParamsAuthAsync(args)
       .then((result: any) => {
-        console.log(result);
+        console.log(result[1]);
         return result[0].ExecuteWithXmlParamsAuthResult;
       })
       .catch((error: any) => {

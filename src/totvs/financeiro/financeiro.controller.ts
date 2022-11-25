@@ -3,6 +3,7 @@ import { FinanceiroService } from './financeiro.service';
 import {
   CreateBaixaSimplesDataDto,
   CreateFinLanDataBRDto,
+  GerarBoletoAgrupadoDto,
 } from './dto/create-financeiro.dto';
 
 @Controller('totvs/soap/financeiro')
@@ -29,5 +30,10 @@ export class FinanceiroController {
     return this.financeiroService.baixaSimplesLancamento(
       createBaixaSimplesData,
     );
+  }
+
+  @Post('wsProcess/gerarBoletoAgrupado')
+  gerarBoletoAgrupado(@Body() gerarBoletoAgrupado: GerarBoletoAgrupadoDto) {
+    return this.financeiroService.gerarBoletoAgrupado(gerarBoletoAgrupado);
   }
 }

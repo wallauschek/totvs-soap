@@ -3,6 +3,7 @@ import { WsSoapService } from '../wsSoap/wsSoap.service';
 import {
   CreateBaixaSimplesDataDto,
   CreateFinLanDataBRDto,
+  GerarBoletoAgrupadoDto,
 } from './dto/create-financeiro.dto';
 
 @Injectable()
@@ -1379,245 +1380,338 @@ export class FinanceiroService {
     return createData;
   }
 
-  async gerarBoletoAgrupado(gerarBoletoAgrupado: any) {
-    const xml = `<![CDATA[<?xml version="1.0" encoding="utf-16"?>
-    <EduGeraLancParamsProc z:Id="i1" xmlns="http://www.totvs.com.br/RM/" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
-      <ActionModule xmlns="http://www.totvs.com/">S</ActionModule>
-      <ActionName xmlns="http://www.totvs.com/">EduGeraLancAction</ActionName>
-      <CanParallelize xmlns="http://www.totvs.com/">true</CanParallelize>
-      <CanSendMail xmlns="http://www.totvs.com/">false</CanSendMail>
-      <CanWaitSchedule xmlns="http://www.totvs.com/">false</CanWaitSchedule>
-      <CodUsuario xmlns="http://www.totvs.com/">${process.env.SOAP_USER}</CodUsuario>
-      <ConnectionId i:nil="true" xmlns="http://www.totvs.com/" />
-      <ConnectionString i:nil="true" xmlns="http://www.totvs.com/" />
-      <Context z:Id="i2" xmlns="http://www.totvs.com/" xmlns:a="http://www.totvs.com.br/RM/">
-        <a:_params xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$EXERCICIOFISCAL</b:Key>
-            <b:Value i:type="c:int" xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$CODLOCPRT</b:Key>
-            <b:Value i:type="c:int" xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$CODTIPOCURSO</b:Key>
-            <b:Value i:type="c:int" xmlns:c="http://www.w3.org/2001/XMLSchema">1</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$EDUTIPOUSR</b:Key>
-            <b:Value i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$CODUNIDADEBIB</b:Key>
-            <b:Value i:type="c:int" xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$CODCOLIGADA</b:Key>
-            <b:Value i:type="c:int" xmlns:c="http://www.w3.org/2001/XMLSchema">${gerarBoletoAgrupado.codColigada}</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$RHTIPOUSR</b:Key>
-            <b:Value i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$CODIGOEXTERNO</b:Key>
-            <b:Value i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$CODSISTEMA</b:Key>
-            <b:Value i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">S</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$CODUSUARIOSERVICO</b:Key>
-            <b:Value i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema" />
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$CODUSUARIO</b:Key>
-            <b:Value i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">${process.env.SOAP_USER}</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$IDPRJ</b:Key>
-            <b:Value i:type="c:int" xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$CHAPAFUNCIONARIO</b:Key>
-            <b:Value i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-          <b:KeyValueOfanyTypeanyType>
-            <b:Key i:type="c:string" xmlns:c="http://www.w3.org/2001/XMLSchema">$CODFILIAL</b:Key>
-            <b:Value i:type="c:int" xmlns:c="http://www.w3.org/2001/XMLSchema">${gerarBoletoAgrupado.codFilial}</b:Value>
-          </b:KeyValueOfanyTypeanyType>
-        </a:_params>
-        <a:Environment>DotNet</a:Environment>
-      </Context>
-      <CustomData i:nil="true" xmlns="http://www.totvs.com/" />
-      <DisableIsolateProcess xmlns="http://www.totvs.com/">false</DisableIsolateProcess>
-      <DriverType i:nil="true" xmlns="http://www.totvs.com/" />
-      <ExecutionId xmlns="http://www.totvs.com/">a4a27ada-a3ae-4c88-ad95-e4e94c3ce400</ExecutionId>
-      <FailureMessage xmlns="http://www.totvs.com/">Falha na execução do processo</FailureMessage>
-      <FriendlyLogs i:nil="true" xmlns="http://www.totvs.com/" />
-      <HideProgressDialog xmlns="http://www.totvs.com/">false</HideProgressDialog>
-      <HostName xmlns="http://www.totvs.com/">CEL-TS-TESTE</HostName>
-      <Initialized xmlns="http://www.totvs.com/">true</Initialized>
-      <Ip xmlns="http://www.totvs.com/">10.10.253.193</Ip>
-      <IsolateProcess xmlns="http://www.totvs.com/">false</IsolateProcess>
-      <JobServerHostName xmlns="http://www.totvs.com/">CEL-APP-TESTE</JobServerHostName>
-      <MasterActionName i:nil="true" xmlns="http://www.totvs.com/" />
-      <MaximumQuantityOfPrimaryKeysPerProcess xmlns="http://www.totvs.com/">1000</MaximumQuantityOfPrimaryKeysPerProcess>
-      <MinimumQuantityOfPrimaryKeysPerProcess xmlns="http://www.totvs.com/">1</MinimumQuantityOfPrimaryKeysPerProcess>
-      <NetworkUser xmlns="http://www.totvs.com/">wellington</NetworkUser>
-      <NotifyEmail xmlns="http://www.totvs.com/">false</NotifyEmail>
-      <NotifyEmailList i:nil="true" xmlns="http://www.totvs.com/" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <NotifyFluig xmlns="http://www.totvs.com/">false</NotifyFluig>
-      <OnlineMode xmlns="http://www.totvs.com/">false</OnlineMode>
-      <PrimaryKeyList xmlns="http://www.totvs.com/" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <PrimaryKeyNames i:nil="true" xmlns="http://www.totvs.com/" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <PrimaryKeyTableName i:nil="true" xmlns="http://www.totvs.com/" />
-      <ProcessName xmlns="http://www.totvs.com/">Gerar lançamentos</ProcessName>
-      <QuantityOfSplits xmlns="http://www.totvs.com/">0</QuantityOfSplits>
-      <SaveLogInDatabase xmlns="http://www.totvs.com/">true</SaveLogInDatabase>
-      <SaveParamsExecution xmlns="http://www.totvs.com/">false</SaveParamsExecution>
-      <ScheduleDateTime xmlns="http://www.totvs.com/">2022-09-12T15:03:46.419088-03:00</ScheduleDateTime>
-      <Scheduler xmlns="http://www.totvs.com/">JobMonitor</Scheduler>
-      <SendMail xmlns="http://www.totvs.com/">false</SendMail>
-      <ServerName xmlns="http://www.totvs.com/">EduGeraLancData</ServerName>
-      <ServiceInterface i:type="b:RuntimeType" z:FactoryType="c:UnitySerializationHolder" xmlns="http://www.totvs.com/" xmlns:a="http://schemas.datacontract.org/2004/07/System" xmlns:b="-mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089-System-System.RuntimeType" xmlns:c="-mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089-System-System.UnitySerializationHolder">
-        <Data i:type="d:string" xmlns="" xmlns:d="http://www.w3.org/2001/XMLSchema">RM.Edu.Interfaces.IEduGeraLanc</Data>
-        <UnityType i:type="d:int" xmlns="" xmlns:d="http://www.w3.org/2001/XMLSchema">4</UnityType>
-        <AssemblyName i:type="d:string" xmlns="" xmlns:d="http://www.w3.org/2001/XMLSchema">RM.Edu.Interfaces.Intf, Version=12.1.33.289, Culture=neutral, PublicKeyToken=null</AssemblyName>
-      </ServiceInterface>
-      <ShouldParallelize xmlns="http://www.totvs.com/">false</ShouldParallelize>
-      <ShowReExecuteButton xmlns="http://www.totvs.com/">true</ShowReExecuteButton>
-      <StatusMessage i:nil="true" xmlns="http://www.totvs.com/" />
-      <SuccessMessage xmlns="http://www.totvs.com/">Processo executado com sucesso</SuccessMessage>
-      <SyncExecution xmlns="http://www.totvs.com/">false</SyncExecution>
-      <UseJobMonitor xmlns="http://www.totvs.com/">true</UseJobMonitor>
-      <UserName xmlns="http://www.totvs.com/">${process.env.SOAP_USER}</UserName>
-      <WaitSchedule xmlns="http://www.totvs.com/">false</WaitSchedule>
-      <ClausulasFiltroRa i:nil="true" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <CodCurso i:nil="true" />
-      <CodGrade i:nil="true" />
-      <CodHabilitacao i:nil="true" />
-      <CodSentencaSql i:nil="true" />
-      <CodTurma i:nil="true" />
-      <CodTurno>0</CodTurno>
-      <IsExcluirPrevia>false</IsExcluirPrevia>
-      <IsProcGeraPrevia>false</IsProcGeraPrevia>
-      <ParamsGeraLanc z:Id="i3">
-        <AgrupaBolentroDeOutrasFiliais>false</AgrupaBolentroDeOutrasFiliais>
-        <AgrupamentoBoleto>Aluno</AgrupamentoBoleto>
-        <BoletoPorServico>Nao</BoletoPorServico>
-        <CampoAlfaOp1 i:nil="true" />
-        <CampoAlfaOp2 i:nil="true" />
-        <CampoAlfaOp3 i:nil="true" />
-        <CnabCarteira i:nil="true" />
-        <CodCCusto i:nil="true" />
-        <CodCfo i:nil="true" />
-        <CodColCfo>0</CodColCfo>
-        <CodColCxa>0</CodColCxa>
-        <CodColCxaAPagar i:nil="true" />
-        <CodColNatFinanceira i:nil="true" />
-        <CodColigada>${gerarBoletoAgrupado.codColigada}</CodColigada>
-        <CodColigadaConta>0</CodColigadaConta>
-        <CodContrato i:nil="true" />
-        <CodCxa />
-        <CodCxaAPagar i:nil="true" />
-        <CodDepto i:nil="true" />
-        <CodEvento i:nil="true" />
-        <CodFilial>${gerarBoletoAgrupado.codFilial}</CodFilial>
-        <CodMoeda>R$</CodMoeda>
-        <CodNatFinanceira i:nil="true" />
-        <CodPlanoPgto i:nil="true" />
-        <CodStatusMatriculaDisc>0</CodStatusMatriculaDisc>
-        <CodTabOp1 i:nil="true" />
-        <CodTabOp2 i:nil="true" />
-        <CodTabOp3 i:nil="true" />
-        <CodTabOp4 i:nil="true" />
-        <CodTabOp5 i:nil="true" />
-        <CodTipoCurso>1</CodTipoCurso>
-        <CodTipoDocumento />
-        <CodTipoDocumentoAPagar i:nil="true" />
-        <CodUsuario>${process.env.SOAP_USER}</CodUsuario>
-        <ConsideraDescAntecipacao>S</ConsideraDescAntecipacao>
-        <ConsideraDescAntecipacaoBolsa>N</ConsideraDescAntecipacaoBolsa>
-        <ContratoHabNull>Sim</ContratoHabNull>
-        <CotaFinal i:nil="true" />
-        <CotaInicial i:nil="true" />
-        <DataCompetencia i:nil="true" />
-        <DataFinal>2023-01-30T00:00:00</DataFinal>
-        <DataInicial>2023-01-30T00:00:00</DataInicial>
-        <DataOp1 i:nil="true" />
-        <DataOp2 i:nil="true" />
-        <DataOp3 i:nil="true" />
-        <DataOp4 i:nil="true" />
-        <DataOp5 i:nil="true" />
-        <DataVencimento>0001-01-01T00:00:00</DataVencimento>
-        <Historico>[SRV.D] - [ALU.C] - [ALU.D] - [CUR.D] - Parcela [PAR.C] / Cota [COT.C]</Historico>
-        <IncluirExcluirBolsaRetroativa>Inclusao</IncluirExcluirBolsaRetroativa>
-        <IsBolsaRetroativaModAntigo_NaoReGerarBoleto>false</IsBolsaRetroativaModAntigo_NaoReGerarBoleto>
-        <IsGeracaoPreviaLancamento>false</IsGeracaoPreviaLancamento>
-        <IsIncluirExcluirBolsaRetroativa>false</IsIncluirExcluirBolsaRetroativa>
-        <IsPlanoPagamentoDefault>false</IsPlanoPagamentoDefault>
-        <IsSimulaLancamento>false</IsSimulaLancamento>
-        <ListaAlunos xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
-          <a:string>${gerarBoletoAgrupado.ra}</a:string>
-        </ListaAlunos>
-        <ListaContaCorrente />
-        <ListaHabilitacaoFilial xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
-          <a:string>225</a:string>
-        </ListaHabilitacaoFilial>
-        <ListaIdParcela xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-        <ListaIdTurmaDisc xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-        <ListaPeriodoLetivo xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
-          <a:string>12</a:string>
-        </ListaPeriodoLetivo>
-        <ListaPlanosPgto xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
-          <a:string>02.05.01.2</a:string>
-          <a:string>23.03.01.1</a:string>
-        </ListaPlanosPgto>
-        <ListaServicos xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
-          <a:string>136</a:string>
-          <a:string>149</a:string>
-        </ListaServicos>
-        <ListaTipoContrato xmlns:a="http://schemas.datacontract.org/2004/07/RM.Edu.Consts">
-          <a:EduTipoContratoEnum>Plano</a:EduTipoContratoEnum>
-          <a:EduTipoContratoEnum>Servico</a:EduTipoContratoEnum>
-          <a:EduTipoContratoEnum>Acordo</a:EduTipoContratoEnum>
-        </ListaTipoContrato>
-        <ListaTipoParcela xmlns:a="http://schemas.datacontract.org/2004/07/RM.Edu.Consts">
-          <a:EduTipoParcelaEnum>Plano</a:EduTipoParcelaEnum>
-          <a:EduTipoParcelaEnum>Adicional</a:EduTipoParcelaEnum>
-          <a:EduTipoParcelaEnum>Extra</a:EduTipoParcelaEnum>
-        </ListaTipoParcela>
-        <MatriculaOnlineContextoParams i:nil="true" />
-        <NroConta i:nil="true" />
-        <NumAgencia i:nil="true" />
-        <NumAgenciaAPagar i:nil="true" />
-        <NumBanco i:nil="true" />
-        <NumBancoAPagar i:nil="true" />
-        <OperacaoBolsaRetroativa i:nil="true" />
-        <OrigemParcela i:nil="true" />
-        <OrigemSimulacaoIsBolsaRetroativa>false</OrigemSimulacaoIsBolsaRetroativa>
-        <ParcelaFinal i:nil="true" />
-        <ParcelaInicial i:nil="true" />
-        <PermiteAtualizarContaCorrente>true</PermiteAtualizarContaCorrente>
-        <ProcessaDescAntecipacaoDuranteGerPrevia>Sim</ProcessaDescAntecipacaoDuranteGerPrevia>
-        <TipoBolsaContrato>S</TipoBolsaContrato>
-        <TipoCalculoPorCredito>Default</TipoCalculoPorCredito>
-        <TipoCob i:nil="true" />
-        <TipoContaCaixa i:nil="true" />
-        <TipoContabilLan>NaoContabil</TipoContabilLan>
-        <TipoContabilLanAPagar i:nil="true" />
-        <TipoSelecaoParcela>Data</TipoSelecaoParcela>
-        <ValorBolsaRetroativa>0</ValorBolsaRetroativa>
-        <ValorOriginal>0</ValorOriginal>
-      </ParamsGeraLanc>
-      <RA>${gerarBoletoAgrupado.ra}</RA>
-      <SalvarParams>false</SalvarParams>
-      <TipoFiltro>RA</TipoFiltro>
-      <ValorParamsConsultaSql i:nil="true" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-    </EduGeraLancParamsProc>]]>`;
+  criaListaString(lista: number[] | string[]) {
+    let listaString = '';
+    lista.forEach((item) => {
+      listaString += `<a:string>${item}</a:string>`;
+    });
+    return listaString;
+  }
+
+  async gerarBoletoAgrupado(gerarBoletoAgrupado: GerarBoletoAgrupadoDto) {
+    gerarBoletoAgrupado.listaCodPlanosPagamento;
+
+    const xml = `<?xml version="1.0" encoding="utf-16"?>
+                  <EduGeraLancParamsProc z:Id="i1"
+                    xmlns="http://www.totvs.com.br/RM/"
+                    xmlns:i="http://www.w3.org/2001/XMLSchema-instance"
+                    xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+                    <ActionModule xmlns="http://www.totvs.com/">S</ActionModule>
+                    <ActionName xmlns="http://www.totvs.com/">EduGeraLancAction</ActionName>
+                    <CanParallelize xmlns="http://www.totvs.com/">true</CanParallelize>
+                    <CanSendMail xmlns="http://www.totvs.com/">false</CanSendMail>
+                    <CanWaitSchedule xmlns="http://www.totvs.com/">false</CanWaitSchedule>
+                    <CodUsuario xmlns="http://www.totvs.com/">${
+                      gerarBoletoAgrupado.codUsuario
+                    }</CodUsuario>
+                    <ConnectionId i:nil="true"
+                      xmlns="http://www.totvs.com/" />
+                    <ConnectionString i:nil="true"
+                      xmlns="http://www.totvs.com/" />
+                    <Context z:Id="i2"
+                      xmlns="http://www.totvs.com/"
+                      xmlns:a="http://www.totvs.com.br/RM/">
+                      <a:_params xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$EXERCICIOFISCAL</b:Key>
+                          <b:Value i:type="c:int"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">1</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$CODLOCPRT</b:Key>
+                          <b:Value i:type="c:int"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$CODTIPOCURSO</b:Key>
+                          <b:Value i:type="c:int"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">${
+                              gerarBoletoAgrupado.codTipoCurso
+                            }</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$EDUTIPOUSR</b:Key>
+                          <b:Value i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$CODUNIDADEBIB</b:Key>
+                          <b:Value i:type="c:int"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$CODCOLIGADA</b:Key>
+                          <b:Value i:type="c:int"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">${
+                              gerarBoletoAgrupado.codColigada
+                            }</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$RHTIPOUSR</b:Key>
+                          <b:Value i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$CODIGOEXTERNO</b:Key>
+                          <b:Value i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$CODSISTEMA</b:Key>
+                          <b:Value i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">S</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$CODUSUARIOSERVICO</b:Key>
+                          <b:Value i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema" />
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$CODUSUARIO</b:Key>
+                          <b:Value i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">${
+                              gerarBoletoAgrupado.codUsuario
+                            }</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$IDPRJ</b:Key>
+                          <b:Value i:type="c:int"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$CHAPAFUNCIONARIO</b:Key>
+                          <b:Value i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">-1</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                        <b:KeyValueOfanyTypeanyType>
+                          <b:Key i:type="c:string"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">$CODFILIAL</b:Key>
+                          <b:Value i:type="c:int"
+                            xmlns:c="http://www.w3.org/2001/XMLSchema">${
+                              gerarBoletoAgrupado.codFilial
+                            }</b:Value>
+                        </b:KeyValueOfanyTypeanyType>
+                      </a:_params>
+                      <a:Environment>DotNet</a:Environment>
+                    </Context>
+                    <CustomData i:nil="true"
+                      xmlns="http://www.totvs.com/" />
+                    <DisableIsolateProcess xmlns="http://www.totvs.com/">false</DisableIsolateProcess>
+                    <DriverType i:nil="true"
+                      xmlns="http://www.totvs.com/" />
+                    <FailureMessage xmlns="http://www.totvs.com/">Falha na execução do processo</FailureMessage>
+                    <FriendlyLogs i:nil="true"
+                      xmlns="http://www.totvs.com/" />
+                    <HideProgressDialog xmlns="http://www.totvs.com/">false</HideProgressDialog>
+                    <HostName xmlns="http://www.totvs.com/">CEL-TS-TESTE</HostName>
+                    <Initialized xmlns="http://www.totvs.com/">true</Initialized>
+                    <Ip xmlns="http://www.totvs.com/">10.10.253.193</Ip>
+                    <IsolateProcess xmlns="http://www.totvs.com/">false</IsolateProcess>
+                  
+                    <JobServerHostName xmlns="http://www.totvs.com/">CEL-APP-TESTE</JobServerHostName>
+                    <MasterActionName i:nil="true"
+                      xmlns="http://www.totvs.com/" />
+                    <MaximumQuantityOfPrimaryKeysPerProcess xmlns="http://www.totvs.com/">1000</MaximumQuantityOfPrimaryKeysPerProcess>
+                    <MinimumQuantityOfPrimaryKeysPerProcess xmlns="http://www.totvs.com/">1</MinimumQuantityOfPrimaryKeysPerProcess>
+                    <NetworkUser xmlns="http://www.totvs.com/">wellington</NetworkUser>
+                    <NotifyEmail xmlns="http://www.totvs.com/">false</NotifyEmail>
+                    <NotifyEmailList i:nil="true"
+                      xmlns="http://www.totvs.com/"
+                      xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+                    <NotifyFluig xmlns="http://www.totvs.com/">false</NotifyFluig>
+                    <OnlineMode xmlns="http://www.totvs.com/">false</OnlineMode>
+                    <PrimaryKeyList xmlns="http://www.totvs.com/"
+                      xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+                    <PrimaryKeyNames i:nil="true"
+                      xmlns="http://www.totvs.com/"
+                      xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+                    <PrimaryKeyTableName i:nil="true"
+                      xmlns="http://www.totvs.com/" />
+                    <ProcessName xmlns="http://www.totvs.com/">Gerar lançamentos</ProcessName>
+                    <QuantityOfSplits xmlns="http://www.totvs.com/">0</QuantityOfSplits>
+                    <SaveLogInDatabase xmlns="http://www.totvs.com/">true</SaveLogInDatabase>
+                    <SaveParamsExecution xmlns="http://www.totvs.com/">false</SaveParamsExecution>
+                    <ScheduleDateTime xmlns="http://www.totvs.com/">2022-11-03T15:56:54.0271207-03:00</ScheduleDateTime>
+                    <Scheduler xmlns="http://www.totvs.com/">JobMonitor</Scheduler>
+                    <SendMail xmlns="http://www.totvs.com/">false</SendMail>
+                    <ServerName xmlns="http://www.totvs.com/">EduGeraLancData</ServerName>
+                    <ServiceInterface i:type="b:RuntimeType" z:FactoryType="c:UnitySerializationHolder"
+                      xmlns="http://www.totvs.com/"
+                      xmlns:a="http://schemas.datacontract.org/2004/07/System"
+                      xmlns:b="-mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089-System-System.RuntimeType"
+                      xmlns:c="-mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089-System-System.UnitySerializationHolder">
+                      <Data i:type="d:string"
+                        xmlns=""
+                        xmlns:d="http://www.w3.org/2001/XMLSchema">RM.Edu.Interfaces.IEduGeraLanc</Data>
+                      <UnityType i:type="d:int"
+                        xmlns=""
+                        xmlns:d="http://www.w3.org/2001/XMLSchema">4</UnityType>
+                      <AssemblyName i:type="d:string"
+                        xmlns=""
+                        xmlns:d="http://www.w3.org/2001/XMLSchema">RM.Edu.Interfaces.Intf, Version=12.1.33.315, Culture=neutral, PublicKeyToken=null</AssemblyName>
+                    </ServiceInterface>
+                    <ShouldParallelize xmlns="http://www.totvs.com/">false</ShouldParallelize>
+                    <ShowReExecuteButton xmlns="http://www.totvs.com/">true</ShowReExecuteButton>
+                    <StatusMessage i:nil="true"
+                      xmlns="http://www.totvs.com/" />
+                    <SuccessMessage xmlns="http://www.totvs.com/">Processo executado com sucesso</SuccessMessage>
+                    <SyncExecution xmlns="http://www.totvs.com/">false</SyncExecution>
+                    <UseJobMonitor xmlns="http://www.totvs.com/">true</UseJobMonitor>
+                    <UserName xmlns="http://www.totvs.com/">${
+                      gerarBoletoAgrupado.codUsuario
+                    }</UserName>
+                    <WaitSchedule xmlns="http://www.totvs.com/">false</WaitSchedule>
+                    <ClausulasFiltroRa i:nil="true"
+                      xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+                    <CodCurso i:nil="true" />
+                    <CodGrade i:nil="true" />
+                    <CodHabilitacao i:nil="true" />
+                    <CodSentencaSql i:nil="true" />
+                    <CodTurma i:nil="true" />
+                    <CodTurno>0</CodTurno>
+                    <IsExcluirPrevia>false</IsExcluirPrevia>
+                    <IsProcGeraPrevia>false</IsProcGeraPrevia>
+                    <ParamsGeraLanc z:Id="i3">
+                      <AgrupaBolentroDeOutrasFiliais>false</AgrupaBolentroDeOutrasFiliais>
+                      <AgrupamentoBoleto>Aluno</AgrupamentoBoleto>
+                      <BoletoPorServico>Nao</BoletoPorServico>
+                      <CampoAlfaOp1 i:nil="true" />
+                      <CampoAlfaOp2 i:nil="true" />
+                      <CampoAlfaOp3 i:nil="true" />
+                      <CnabCarteira i:nil="true" />
+                      <CodCCusto i:nil="true" />
+                      <CodCfo i:nil="true" />
+                      <CodColCfo>0</CodColCfo>
+                      <CodColCxa>0</CodColCxa>
+                      <CodColCxaAPagar i:nil="true" />
+                      <CodColNatFinanceira i:nil="true" />
+                      <CodColigada>${
+                        gerarBoletoAgrupado.codColigada
+                      }</CodColigada>
+                      <CodColigadaConta>0</CodColigadaConta>
+                      <CodContrato i:nil="true" />
+                      <CodCxa />
+                      <CodCxaAPagar i:nil="true" />
+                      <CodDepto i:nil="true" />
+                      <CodEvento i:nil="true" />
+                      <CodFilial>${gerarBoletoAgrupado.codFilial}</CodFilial>
+                      <CodMoeda>R$</CodMoeda>
+                      <CodNatFinanceira i:nil="true" />
+                      <CodPlanoPgto i:nil="true" />
+                      <CodStatusMatriculaDisc>0</CodStatusMatriculaDisc>
+                      <CodTabOp1 i:nil="true" />
+                      <CodTabOp2 i:nil="true" />
+                      <CodTabOp3 i:nil="true" />
+                      <CodTabOp4 i:nil="true" />
+                      <CodTabOp5 i:nil="true" />
+                      <CodTipoCurso>${
+                        gerarBoletoAgrupado.codTipoCurso
+                      }</CodTipoCurso>
+                      <CodTipoDocumento />
+                      <CodTipoDocumentoAPagar i:nil="true" />
+                      <CodUsuario>${gerarBoletoAgrupado.codUsuario}</CodUsuario>
+                      <ConsideraDescAntecipacao>S</ConsideraDescAntecipacao>
+                      <ConsideraDescAntecipacaoBolsa>N</ConsideraDescAntecipacaoBolsa>
+                      <ContratoHabNull>Sim</ContratoHabNull>
+                      <CotaFinal i:nil="true" />
+                      <CotaInicial i:nil="true" />
+                      <DataCompetencia i:nil="true" />
+                      <DataFinal>${
+                        gerarBoletoAgrupado.DataVencimentoFinal
+                      }</DataFinal>
+                      <DataInicial>${
+                        gerarBoletoAgrupado.DataVencimentoInicial
+                      }</DataInicial>
+                      <DataOp1 i:nil="true" />
+                      <DataOp2 i:nil="true" />
+                      <DataOp3 i:nil="true" />
+                      <DataOp4 i:nil="true" />
+                      <DataOp5 i:nil="true" />
+                      <DataVencimento>0001-01-01T00:00:00</DataVencimento>
+                      <Historico>[SRV.D] - [ALU.C] - [ALU.D] - [CUR.D] - Parcela [PAR.C] / Cota [COT.C]</Historico>
+                      <IncluirExcluirBolsaRetroativa>Inclusao</IncluirExcluirBolsaRetroativa>
+                      <IsBolsaRetroativaModAntigo_NaoReGerarBoleto>false</IsBolsaRetroativaModAntigo_NaoReGerarBoleto>
+                      <IsGeracaoPreviaLancamento>false</IsGeracaoPreviaLancamento>
+                      <IsIncluirExcluirBolsaRetroativa>false</IsIncluirExcluirBolsaRetroativa>
+                      <IsPlanoPagamentoDefault>false</IsPlanoPagamentoDefault>
+                      <IsSimulaLancamento>false</IsSimulaLancamento>
+                      <ListaAlunos xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+                        <a:string>${gerarBoletoAgrupado.ra}</a:string>
+                      </ListaAlunos>
+                      <ListaContaCorrente />
+                      <ListaHabilitacaoFilial xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+                        ${this.criaListaString(
+                          gerarBoletoAgrupado.listaIdHabilitacaoFilial,
+                        )}
+                      </ListaHabilitacaoFilial>
+                      <ListaIdParcela xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+                      <ListaIdTurmaDisc xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+                      <ListaPeriodoLetivo xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+                        ${this.criaListaString(
+                          gerarBoletoAgrupado.listaIdPeriodosLetivos,
+                        )}
+                      </ListaPeriodoLetivo>
+                      <ListaPlanosPgto xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+                        ${this.criaListaString(
+                          gerarBoletoAgrupado.listaCodPlanosPagamento,
+                        )}
+                      </ListaPlanosPgto>
+                      <ListaServicos xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+                        ${this.criaListaString(
+                          gerarBoletoAgrupado.listaCodServicos,
+                        )}
+                      </ListaServicos>
+                      <ListaTipoContrato xmlns:a="http://schemas.datacontract.org/2004/07/RM.Edu.Consts">
+                        <a:EduTipoContratoEnum>Plano</a:EduTipoContratoEnum>
+                        <a:EduTipoContratoEnum>Servico</a:EduTipoContratoEnum>
+                      </ListaTipoContrato>
+                      <ListaTipoParcela xmlns:a="http://schemas.datacontract.org/2004/07/RM.Edu.Consts">
+                        <a:EduTipoParcelaEnum>Plano</a:EduTipoParcelaEnum>
+                        <a:EduTipoParcelaEnum>Adicional</a:EduTipoParcelaEnum>
+                        <a:EduTipoParcelaEnum>Extra</a:EduTipoParcelaEnum>
+                      </ListaTipoParcela>
+                      <MatriculaOnlineContextoParams i:nil="true" />
+                      <NroConta i:nil="true" />
+                      <NumAgencia i:nil="true" />
+                      <NumAgenciaAPagar i:nil="true" />
+                      <NumBanco i:nil="true" />
+                      <NumBancoAPagar i:nil="true" />
+                      <OperacaoBolsaRetroativa i:nil="true" />
+                      <OrigemParcela i:nil="true" />
+                      <OrigemSimulacaoIsBolsaRetroativa>false</OrigemSimulacaoIsBolsaRetroativa>
+                      <ParcelaFinal i:nil="true" />
+                      <ParcelaInicial i:nil="true" />
+                      <PermiteAtualizarContaCorrente>true</PermiteAtualizarContaCorrente>
+                      <ProcessaDescAntecipacaoDuranteGerPrevia>Sim</ProcessaDescAntecipacaoDuranteGerPrevia>
+                      <TipoBolsaContrato>S</TipoBolsaContrato>
+                      <TipoCalculoPorCredito>Default</TipoCalculoPorCredito>
+                      <TipoCob i:nil="true" />
+                      <TipoContaCaixa i:nil="true" />
+                      <TipoContabilLan>NaoContabil</TipoContabilLan>
+                      <TipoContabilLanAPagar i:nil="true" />
+                      <TipoSelecaoParcela>Data</TipoSelecaoParcela>
+                      <ValorBolsaRetroativa>0</ValorBolsaRetroativa>
+                      <ValorOriginal>0</ValorOriginal>
+                    </ParamsGeraLanc>
+                    <RA>${gerarBoletoAgrupado.ra}</RA>
+                    <SalvarParams>false</SalvarParams>
+                    <TipoFiltro>RA</TipoFiltro>
+                    <ValorParamsConsultaSql i:nil="true"
+                      xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+                  </EduGeraLancParamsProc>`;
 
     const createData = await this.wsSoap.executaExecuteWithXmlParamsProcess({
       ProcessServerName: 'EduGeraLancData',
